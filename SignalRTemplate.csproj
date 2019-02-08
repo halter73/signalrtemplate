@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+
+  <ItemGroup>
+      <SignalRScripts Include="node_modules/@aspnet/signalr/dist/browser/*.*"/>
+  </ItemGroup>
+
+  <Target Name="NpmInstall"
+          BeforeTargets="AfterBuild">
+    <Exec Command="npm install" />
+    <Copy
+        SourceFiles="@(SignalRScripts)"
+        DestinationFolder="wwwroot/js"
+    />
+  </Target>
+
+</Project>
