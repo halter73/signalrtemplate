@@ -62,6 +62,7 @@ namespace SignalRTemplate
 
             app.UseSignalR((routes) => 
             {
+                routes.MapHub<ChatHub>("/chathub");
                 routes.MapHub<ServerTimeHub>("/serverTime");
             });
         }

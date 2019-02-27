@@ -1,13 +1,12 @@
-"use strict";
+var clockConnection = connectionBuilder.withUrl("/serverTime").build();
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/serverTime").build();
-
-connection.on("SendTime", function (serverTime) {
+clockConnection.on("SendTime", function (serverTime) {
     document.getElementById("serverTime").innerText = 
         new Date(serverTime).toLocaleTimeString();
 });
 
-connection.start().then(function () {
+clockConnection.start().then(function () {
+    // do your own post-connection-started work here
 }).catch(function (err) {
     return console.error(err.toString());
 });
