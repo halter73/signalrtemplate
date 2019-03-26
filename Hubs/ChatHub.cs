@@ -9,7 +9,8 @@ namespace SignalRTemplate.Hubs
     {
         public Task SendMessageToGroup(string groupName, string message)
         {
-            return Clients.Group(groupName).SendAsync("Send", $"{Context.ConnectionId}: {message}");
+            // TODO: Maybe color-code/style the group name, connection id and message differently.
+            return Clients.Group(groupName).SendAsync("Send", $"{Context.ConnectionId} ({groupName}): {message}");
         }
 
         public async Task AddToGroup(string groupName)
@@ -21,14 +22,9 @@ namespace SignalRTemplate.Hubs
 
         public async Task RemoveFromGroup(string groupName)
         {
+            await Clients.Group(groupName).SendAsync("Send", $"{Context.ConnectionId} is leaving the group {groupName}.");
+
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
-
-            await Clients.Group(groupName).SendAsync("Send", $"{Context.ConnectionId} has left the group {groupName}.");
-        }
-
-        public Task SendPrivateMessage(string user, string message)
-        {
-            return Clients.User(user).SendAsync("ReceiveMessage", message);
         }
     }
 }
